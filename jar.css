@@ -1,0 +1,884 @@
+﻿/* ===== RESET ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; min-height: 100%; }
+
+body {
+  font-family: 'Lato', sans-serif;
+  background: radial-gradient(ellipse at 65% 25%, #8a1248 0%, #560932 35%, #330520 70%, #1e0210 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ===== HEARTS CANVAS ===== */
+#hearts-canvas {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 0;
+  width: 100%; height: 100%;
+}
+
+/* ===== PAGE LAYOUT ===== */
+.jar-page {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1.5rem 3rem;
+  gap: 1.6rem;
+  min-height: 100vh;
+}
+
+/* ===== TITLE ===== */
+.jar-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(2rem, 7vw, 3rem);
+  text-align: center;
+  background: linear-gradient(135deg, #ffe8a3 0%, #f3c641 35%, #fff5d0 65%, #c29425 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+  filter: drop-shadow(0 0 14px rgba(243,198,65,0.4));
+  padding-inline: 0.5rem;   /* ← gives the cursive letters room on both sides */
+  overflow: visible;         /* ← prevents clipping of the drop-shadow glow */
+  line-height: 1.4;      /* ← add this */
+  padding-top: 0.3rem;   /* ← add this */
+
+}
+
+.jar-subtitle {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(0.8rem, 2.5vw, 0.95rem);
+  font-style: italic;
+  color: #f5bbd0;
+  text-align: center;
+  opacity: 0.78;
+  line-height: 1.7;
+}
+
+/* ===== JAR SCENE ===== */
+.jar-scene {
+  position: relative;
+  width: min(340px, 82vw);
+  aspect-ratio: 240 / 320;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* jar idle float */
+.jar-svg {
+  width: 100%; height: 100%;
+  display: block;
+  animation: jarFloat 4s ease-in-out infinite;
+  filter: drop-shadow(0 14px 32px rgba(120, 10, 60, 0.5));
+  transition: filter 0.3s ease;
+  position: relative; z-index: 2;
+  will-change: transform;
+  outline: none;
+}
+.jar-scene:hover .jar-svg {
+  filter: drop-shadow(0 14px 46px rgba(200, 50, 120, 0.7));
+}
+
+@keyframes jarFloat {
+  0%,100% { transform: translateY(0px);  }
+  50%      { transform: translateY(-8px); }
+}
+
+/* Tap bounce — squash & stretch feedback */
+@keyframes tapBounce {
+  0%   { transform: scale(1)            translateY(0);   }
+  25%  { transform: scale(0.92, 1.06)   translateY(2px); }
+  50%  { transform: scale(1.07, 0.94)   translateY(-6px); }
+  75%  { transform: scale(0.97, 1.03)   translateY(1px); }
+  100% { transform: scale(1)            translateY(0);   }
+}
+
+/* Tap glow — warm flash */
+.jar-svg.tap-glow {
+  filter: drop-shadow(0 14px 60px rgba(255,200,120,0.95)) !important;
+}
+
+/* Lid open animation */
+.jar-lid {
+  transform-origin: 120px 18px;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+              opacity 0.5s ease;
+  will-change: transform;
+}
+/* Lid pops up and rests ajar on the rim — not fully removed */
+.jar-lid.open {
+  transform: translateY(-34px) translateX(5px) rotate(-15deg);
+  opacity: 1;
+}
+/* Subtle extra lift while a note is escaping the jar — minimal, no bounce */
+.jar-lid.open.lifting {
+  transform: translateY(-44px) translateX(5px) rotate(-18deg);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== FOR YOU TAG ===== */
+.jar-tag {
+  position: absolute;
+  left: 2.5%;
+  top: 36.5%;
+  width: 23%;
+  background: linear-gradient(145deg, #fde8f0, #f8cce0);
+  border-radius: 4px;
+  padding: 6% 5% 8%;
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(0.7rem, 3.6vw, 0.95rem);
+  color: #7a2845;
+  text-align: center;
+  line-height: 1.5;
+  box-shadow: 2px 3px 12px rgba(100,20,60,0.35);
+  transform: rotate(-8deg);
+  animation: tagSway 4s ease-in-out infinite;
+  z-index: 5;
+  will-change: transform;
+}
+.jar-tag::before {
+  content: '';
+  position: absolute;
+  top: -8px; left: 50%;
+  transform: translateX(-50%);
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #c07090;
+}
+.jar-tag::after {
+  content: '';
+  position: absolute;
+  top: -22px; left: 50%;
+  transform: translateX(-50%);
+  width: 1px; height: 16px;
+  background: #b09090;
+}
+@keyframes tagSway {
+  0%,100% { transform: rotate(-8deg) translateY(0);  }
+  50%      { transform: rotate(-6deg) translateY(-4px); }
+}
+
+/* ===== TAP HINT ===== */
+.tap-hint {
+  position: absolute;
+  bottom: -9%;
+  left: 50%; transform: translateX(-50%);
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(0.82rem, 3.4vw, 1rem);
+  font-style: italic;
+  color: #f5bbd0;
+  opacity: 0;
+  animation: hintPulse 2s ease-in-out 1s infinite;
+  white-space: nowrap;
+  z-index: 6;
+}
+@keyframes hintPulse {
+  0%,100% { opacity: 0.3; } 50% { opacity: 0.75; }
+}
+.tap-hint.hidden { display: none; }
+
+/* ===== TAP PROGRESS DOTS ===== */
+.tap-dots {
+  position: absolute;
+  bottom: -16%;
+  left: 50%; transform: translateX(-50%);
+  display: flex; gap: 12px;
+  z-index: 6;
+}
+.tap-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(240,160,200,0.4);
+  background: transparent;
+  transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+}
+.tap-dot.lit {
+  background: radial-gradient(circle, #fce0ec, #e0608a);
+  box-shadow: 0 0 8px rgba(230,80,140,0.6);
+}
+.tap-dot.pop {
+  animation: dotPop 0.35s ease;
+}
+@keyframes dotPop {
+  0%   { transform: scale(1);   }
+  40%  { transform: scale(1.7); }
+  100% { transform: scale(1);   }
+}
+
+/* ===== TAP RIPPLE RING ===== */
+.tap-ring {
+  position: absolute;
+  width: 16px; height: 16px;
+  margin: -8px 0 0 -8px;
+  border: 2px solid rgba(255,210,150,0.8);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 8;
+  animation: ringExpand 0.6s ease-out forwards;
+}
+@keyframes ringExpand {
+  0%   { transform: scale(0.4); opacity: 1;   }
+  100% { transform: scale(7);   opacity: 0;   }
+}
+
+/* ===== TAP PARTICLES (sparkles/hearts burst) ===== */
+.tap-particle {
+  position: absolute;
+  pointer-events: none;
+  z-index: 9;
+  font-size: clamp(0.7rem, 3vw, 1rem);
+  animation: particleFly 0.75s ease-out forwards;
+}
+@keyframes particleFly {
+  0%   { transform: translate(0,0) scale(1) rotate(0deg);   opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) scale(0.3) rotate(180deg); opacity: 0; }
+}
+
+/* ===== PAPER BALLS INSIDE JAR ===== */
+.jar-ball {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+/* While a note is being read, its ball fades & shrinks — jar feels less crowded */
+.jar-ball.taken {
+  opacity: 0.12;
+  transform: scale(0.45);
+}
+
+/* Once the jar is open, the message balls become the interaction zone */
+.jar-ball.interactive {
+  cursor: pointer;
+}
+
+/* Subtle highlight when a ball is selected — gentle glow + slight lift */
+@keyframes jarBallSelect {
+  0%   { filter: drop-shadow(0 0 0 rgba(255,210,150,0));   transform: scale(1);    }
+  50%  { filter: drop-shadow(0 0 10px rgba(255,215,160,0.85)); transform: scale(1.15); }
+  100% { filter: drop-shadow(0 0 0 rgba(255,210,150,0));   transform: scale(1);    }
+}
+.jar-ball.selected {
+  animation: jarBallSelect 0.4s ease;
+}
+
+/* ===== FIREFLY CANVAS ===== */
+.fairy-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* ===== ACTION AREA ===== */
+.action-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.action-area.visible {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+
+.take-hint {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(0.88rem, 2.5vw, 1rem);
+  font-style: italic;
+  color: #f5bbd0;
+  text-align: center;
+  opacity: 0.85;
+}
+
+/* ===== READ COUNTER ===== */
+.read-counter {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.78rem;
+  font-style: italic;
+  color: #d090b0;
+  text-align: center;
+  opacity: 0.65;
+  min-height: 1.2em;
+}
+
+.jar-completed-hint {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.82rem;
+  font-style: italic;
+  color: #f5bbd0;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  min-height: 1.2em;
+  pointer-events: none;
+}
+
+.jar-completed-hint.visible {
+  opacity: 0.78;
+  transform: translateY(0);
+}
+
+/* ===== FOOTER ===== */
+.jar-footer {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(1rem, 4vw, 1.4rem);
+  color: #d08090;
+  text-align: center;
+  opacity: 0;
+  animation: footerFade 2s ease forwards 1.5s;
+}
+@keyframes footerFade { to { opacity: 0.48; } }
+
+/* ===== CHIT MODAL ===== */
+.chit-modal {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 50;
+  background: rgba(20, 2, 12, 0.6);
+  backdrop-filter: blur(6px);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.45s ease;
+}
+.chit-modal.open {
+  opacity: 1; pointer-events: all;
+}
+
+.chit-paper {
+  width: min(340px, 88vw);
+  background: linear-gradient(145deg, #fef5f8 0%, #fde0ec 100%);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  box-shadow:
+    0 20px 60px rgba(100,10,50,0.5),
+    0 4px 16px rgba(0,0,0,0.2),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+  position: relative;
+  overflow: hidden;
+  /* paper texture feel */
+  background-image:
+    linear-gradient(145deg, #fef5f8 0%, #fde0ec 100%),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 28px,
+      rgba(200,100,140,0.06) 28px,
+      rgba(200,100,140,0.06) 29px
+    );
+
+  /* Fly-from-chit + unfold: starts small, offset toward the tapped chit */
+  transform: translate(var(--fly-x, 0px), var(--fly-y, 0px)) scale(0.16) rotate(14deg);
+  opacity: 0;
+  transition:
+    transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.4s ease;
+}
+.chit-modal.open .chit-paper {
+  transform: translate(0px, 0px) scale(1) rotate(0deg);
+  opacity: 1;
+}
+
+/* Warm glow flash during the unfold */
+.chit-paper.paper-glow {
+  box-shadow:
+    0 20px 60px rgba(100,10,50,0.5),
+    0 4px 16px rgba(0,0,0,0.2),
+    inset 0 1px 0 rgba(255,255,255,0.9),
+    0 0 60px rgba(255,200,140,0.7);
+}
+
+/* ── Fold overlay — the "wrapped ball" face that covers the paper ── */
+.chit-fold-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255,255,255,0.55), transparent 42%),
+    radial-gradient(circle at 70% 75%, rgba(120,20,60,0.28), transparent 55%),
+    linear-gradient(135deg, #fce0ec 0%, #e8608a 55%, #c8406a 100%);
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.4s ease 0.12s, transform 0.4s ease 0.12s;
+  pointer-events: none;
+  z-index: 2;
+}
+.chit-modal.open .chit-fold-overlay {
+  opacity: 0;
+  transform: scale(1.7);
+}
+
+/* ── Inner content — fades in after unfold ── */
+.chit-paper-inner {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 1.2rem;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.4s ease 0.22s;
+}
+.chit-modal.open .chit-paper-inner {
+  opacity: 1;
+}
+/* Snappier fade-out when closing — content disappears before the fold covers it */
+.chit-modal.closing .chit-paper-inner {
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.chit-deco {
+  font-size: 1.1rem;
+  color: #d06080;
+  opacity: 0.7;
+}
+.chit-deco-bottom { opacity: 0.5; font-size: 0.85rem; }
+
+.chit-message {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.1rem, 4vw, 1.5rem);
+  color: #5a1830;
+  white-space: pre-wrap;
+  text-align: left;
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+}
+
+/* ADDED: Position relative and expanded pseudo-element for mobile thumb targeting */
+.chit-close {
+  position: relative;
+  background: transparent;
+  border: 1px solid rgba(180,60,100,0.3);
+  border-radius: 30px;
+  padding: 0.5rem 1.5rem;
+  font-family: 'Playfair Display', serif;
+  font-size: 0.82rem;
+  font-style: italic;
+  color: #a04060;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  margin-top: 0.4rem;
+}
+.chit-close::after {
+  content: '';
+  position: absolute;
+  top: -15px; right: -15px; bottom: -15px; left: -15px;
+}
+.chit-close:hover {
+  background: rgba(180,60,100,0.1);
+  color: #7a2040;
+}
+
+/* ===== ALL READ OVERLAY ===== */
+.all-read-overlay {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 60;
+  background: rgba(20, 2, 12, 0.75);
+  backdrop-filter: blur(10px);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+.all-read-overlay.open {
+  opacity: 1; pointer-events: all;
+}
+
+.all-read-inner {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 1.2rem;
+  padding: 3rem 2rem;
+  text-align: center;
+  max-width: 360px;
+}
+
+.all-read-emoji { font-size: 2.5rem; }
+
+.all-read-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(1.8rem, 6vw, 2.5rem);
+  background: linear-gradient(135deg, #ffe8a3, #f3c641, #fff5d0, #c29425);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 10px rgba(243,198,65,0.4));
+}
+
+.all-read-sub {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.95rem;
+  font-style: italic;
+  color: #f5bbd0;
+  line-height: 1.7;
+  opacity: 0.85;
+}
+
+/* UPDATED: Glassmorphism style incorporated */
+.all-read-btn {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(0.88rem, 3vw, 1.05rem);
+  font-weight: 400;
+  color: #ffe8f3;
+  letter-spacing: 0.03em;
+  padding: 0.9rem 2.5rem;
+  border-radius: 50px;
+  cursor: pointer;
+  background: rgba(255, 200, 220, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(230, 170, 150, 0.45);
+  box-shadow:
+    0 8px 28px rgba(120, 10, 60, 0.4),
+    inset 0 1px 0 rgba(255, 225, 215, 0.25),
+    inset 0 -1px 0 rgba(0,0,0,0.08);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.all-read-btn:hover {
+  transform: translateY(-3px);
+  border-color: rgba(245, 195, 170, 0.75);
+  box-shadow:
+    0 12px 36px rgba(180, 50, 110, 0.5),
+    0 0 30px rgba(235, 175, 150, 0.35),
+    inset 0 1px 0 rgba(255, 230, 220, 0.32);
+}
+
+.all-read-btn:active {
+  transform: scale(0.97);
+}
+
+/* ADDED: Position relative and expanded pseudo-element for mobile thumb targeting */
+.all-read-reread {
+  position: relative;
+  background: transparent;
+  border: none;
+  font-family: 'Playfair Display', serif;
+  font-size: 0.82rem;
+  font-style: italic;
+  color: #d090b0;
+  cursor: pointer;
+  opacity: 0.7;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.all-read-reread::after {
+  content: '';
+  position: absolute;
+  top: -15px; right: -15px; bottom: -15px; left: -15px;
+}
+.all-read-reread:hover { opacity: 1; }
+
+/* ===== GLASS REFLECTION SHIMMER ===== */
+/* Reflections sit at low opacity most of the time, with rare brief shimmer flares */
+.glass-reflect {
+  opacity: 0.5;
+}
+
+@keyframes shimmerA {
+  0%, 88%, 100% { opacity: 0.5;  }
+  92%            { opacity: 1;    }
+}
+@keyframes shimmerB {
+  0%, 91%, 100% { opacity: 0.45; }
+  95%            { opacity: 0.9;  }
+}
+@keyframes shimmerC {
+  0%, 94%, 100% { opacity: 0.35; }
+  97%            { opacity: 0.75; }
+}
+
+.shimmer-a { animation: shimmerA 11s ease-in-out infinite; }
+.shimmer-b { animation: shimmerB 16s ease-in-out infinite 3s; }
+.shimmer-c { animation: shimmerC 21s ease-in-out infinite 8s; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 400px) {
+  .chit { width: 50px; height: 50px; }
+}
+
+/* ============================================
+   SHARED PAGE TRANSITIONS + SMART BACK BUTTON
+   ============================================ */
+@keyframes pageEnter {
+  0%   { opacity: 0; transform: translateY(14px) scale(0.99); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.page-root {
+  animation: pageEnter 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.page-exit {
+  opacity: 0 !important;
+  transform: translateY(-8px) scale(0.97) !important;
+  transition: opacity 0.6s ease, transform 0.6s ease !important;
+  pointer-events: none !important;
+}
+
+.smart-back-btn {
+  position: fixed;
+  top: 1.4rem;
+  left: 1.4rem;
+  z-index: 80;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: rgba(255, 200, 220, 0.08);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1.5px solid rgba(230, 170, 150, 0.4);
+  box-shadow:
+    0 4px 16px rgba(120, 10, 60, 0.35),
+    inset 0 1px 0 rgba(255, 225, 215, 0.22);
+  opacity: 0;
+  animation: backBtnFadeIn 0.7s ease forwards 0.3s;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+@keyframes backBtnFadeIn {
+  to { opacity: 1; }
+}
+
+.smart-back-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.smart-back-btn:hover {
+  transform: scale(1.08);
+  border-color: rgba(245, 195, 170, 0.7);
+  box-shadow:
+    0 6px 22px rgba(180, 50, 110, 0.45),
+    0 0 18px rgba(235, 175, 150, 0.3),
+    inset 0 1px 0 rgba(255, 230, 220, 0.28);
+}
+
+.smart-back-btn:active {
+  transform: scale(0.93);
+}
+
+@media (max-width: 480px) {
+  .smart-back-btn {
+    top: 1rem;
+    left: 1rem;
+    width: 38px;
+    height: 38px;
+  }
+}
+/* ============================================
+   MOBILE POLISH PASS
+   ============================================ */
+@media (max-width: 640px) {
+  .jar-page {
+    min-height: 100svh;
+    padding: calc(4.25rem + env(safe-area-inset-top)) 1rem calc(2rem + env(safe-area-inset-bottom));
+    justify-content: flex-start;
+    gap: 1rem;
+  }
+
+  .jar-title {
+    font-size: clamp(1.95rem, 9vw, 2.65rem);
+    line-height: 1.15;
+  }
+
+  .jar-subtitle {
+    max-width: 21rem;
+  }
+
+  .jar-scene {
+    width: min(76vw, 300px);
+    margin-block: 0.2rem 0;
+  }
+
+  .action-area {
+    width: min(100%, 21rem);
+  }
+
+  .chit-paper {
+    width: min(88vw, 320px);
+  }
+
+  .all-read-inner {
+    width: min(88vw, 330px);
+    padding: 2rem 1.35rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .jar-page {
+    gap: 0.75rem;
+    padding-inline: 0.75rem;
+  }
+
+  .jar-scene {
+    width: min(78vw, 270px);
+  }
+
+  .jar-footer {
+    font-size: 0.78rem;
+  }
+}
+
+@media (max-height: 700px) and (max-width: 640px) {
+  .jar-page {
+    padding-top: calc(3.75rem + env(safe-area-inset-top));
+    gap: 0.55rem;
+  }
+
+  .jar-scene {
+    width: min(64vw, 235px);
+  }
+
+  .jar-subtitle,
+  .jar-footer {
+    line-height: 1.45;
+  }
+}
+
+/* ============================================
+   JAR MOBILE CLEANUP PASS
+   Prevents title/counter/footer crowding on real phones.
+   ============================================ */
+.tap-dots.hidden {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .jar-page {
+    padding-top: calc(4.7rem + env(safe-area-inset-top));
+    gap: 0.85rem;
+  }
+
+  .jar-title {
+    width: min(100%, 21.5rem);
+    font-size: clamp(1.75rem, 8.2vw, 2.35rem);
+    line-height: 1.1;
+    text-wrap: balance;
+    overflow-wrap: normal;
+  }
+
+  .jar-subtitle {
+    font-size: clamp(0.82rem, 4vw, 0.98rem);
+    line-height: 1.55;
+  }
+
+  .jar-scene {
+    width: min(72vw, 280px);
+    margin-block: 0.15rem 0.45rem;
+  }
+
+  .tap-hint {
+    bottom: -7%;
+  }
+
+  .tap-dots {
+    bottom: -11%;
+    gap: 9px;
+  }
+
+  .action-area {
+    gap: 0.55rem;
+    margin-top: 0.15rem;
+  }
+
+  .read-counter,
+  .jar-completed-hint,
+  .jar-footer {
+    position: relative;
+    z-index: 7;
+    max-width: 21rem;
+    line-height: 1.45;
+    text-shadow: 0 0 14px rgba(60, 0, 30, 0.45);
+  }
+
+  .read-counter {
+    font-size: 0.78rem;
+    min-height: 1.45em;
+  }
+
+  .jar-footer {
+    font-size: clamp(0.95rem, 4.6vw, 1.18rem);
+    margin-top: 0.35rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .jar-title {
+    width: min(100%, 20rem);
+    font-size: clamp(1.58rem, 7.8vw, 2.05rem);
+  }
+
+  .jar-scene {
+    width: min(70vw, 255px);
+  }
+}
+
+@media (max-height: 760px) and (max-width: 640px) {
+  .jar-page {
+    padding-top: calc(4rem + env(safe-area-inset-top));
+    gap: 0.45rem;
+  }
+
+  .jar-title {
+    font-size: clamp(1.48rem, 7.4vw, 1.95rem);
+  }
+
+  .jar-subtitle {
+    line-height: 1.4;
+  }
+
+  .jar-scene {
+    width: min(62vw, 230px);
+    margin-bottom: 0.25rem;
+  }
+
+  .action-area {
+    gap: 0.4rem;
+  }
+
+  .jar-footer {
+    margin-top: 0.15rem;
+  }
+}
+
+/* ============================================
+   MOBILE GPU PERFORMANCE
+   Reduces compositing cost without changing design.
+   ============================================ */
+@media (max-width: 640px) {
+  /* Simpler drop-shadow — complex ones force full SVG rasterisation every frame */
+  .jar-svg {
+    filter: drop-shadow(0 8px 18px rgba(120, 10, 60, 0.45));
+  }
+  .jar-scene:hover .jar-svg,
+  .jar-scene:active .jar-svg {
+    filter: drop-shadow(0 10px 26px rgba(200, 50, 120, 0.58));
+  }
+
+  /* Shimmer animations are 11–21s long and barely visible on small screens.
+     Skipping them frees the browser from tracking 3 extra animation timelines. */
+  .shimmer-a,
+  .shimmer-b,
+  .shimmer-c {
+    animation: none;
+  }
+
+  /* mix-blend-mode forces a new stacking context + compositing pass each paint.
+     Disabling on mobile removes 3 composite layers from the jar SVG. */
+  .jar-svg [style*="mix-blend-mode"] {
+    mix-blend-mode: normal !important;
+  }
+}

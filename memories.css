@@ -1,0 +1,403 @@
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; min-height: 100%; }
+
+body {
+  font-family: 'Lato', sans-serif;
+  background: radial-gradient(ellipse at 65% 25%, #8a1248 0%, #560932 35%, #330520 70%, #1e0210 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ===== HEARTS CANVAS ===== */
+#hearts-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== MAIN PAGE ===== */
+.memories-page {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 5rem 1.5rem 3.5rem;
+  gap: 1.5rem;
+}
+
+/* ===== EYEBROW ===== */
+.mem-eyebrow {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(0.78rem, 2.5vw, 0.95rem);
+  color: #f5bbd0;
+  letter-spacing: 0.1em;
+  text-align: center;
+  opacity: 0.8;
+}
+
+/* ===== TITLE ===== */
+.mem-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(2rem, 7vw, 3rem);
+  font-weight: 400;
+  text-align: center;
+  background: linear-gradient(135deg, #ffe8a3 0%, #f3c641 35%, #fff5d0 65%, #c29425 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  filter: drop-shadow(0 0 12px rgba(243, 198, 65, 0.4));
+}
+
+/* ===== FLOAT WRAPPER ===== */
+/* Separated from the click target so floating doesn't interfere with JS transforms */
+.stack-floater {
+  animation: stackFloat 5.5s ease-in-out infinite;
+}
+
+@keyframes stackFloat {
+  0%, 100% { transform: translateY(0px);   }
+  50%       { transform: translateY(-11px); }
+}
+
+.stack-floater.float-paused {
+  animation-play-state: paused;
+}
+
+/* ===== STACK SCENE (click zone) ===== */
+.stack-scene {
+  position: relative;
+  /* Large enough to contain shifted + rotated frames without clipping */
+  width:  clamp(300px, 82vw, 400px);
+  height: clamp(340px, 90vw, 460px);
+  cursor: pointer;
+  overflow: visible;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  outline: none;
+}
+
+/* ===== INDIVIDUAL PHOTO FRAME ===== */
+.photo-frame {
+  position: absolute;
+  /* JS centers via translate(calc(-50% + tx), calc(-50% + ty)) */
+  top:  50%;
+  left: 50%;
+  /* UPDATED: Relaxed the minimum width/height so it doesn't break out on extremely small screens */
+  width:  clamp(160px, 85vw, 280px);
+  height: clamp(195px, 90vw, 345px);
+  background: #ffffff;
+  /* Equal padding → equal white border on all sides */
+  padding: 11px 11px 32px 11px;
+  border-radius: 2px;
+  will-change: transform, opacity;
+  box-shadow:
+    0 24px 65px rgba(45, 4, 26, 0.65),
+    0 10px 26px rgba(0, 0, 0, 0.4),
+    0  3px  7px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* ===== PHOTO INNER (fills the white-bordered area) ===== */
+.frame-inner {
+  width: 100%;
+  height: calc(100% - 22px);  /* leave 32px at bottom for caption */
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(135deg, #8a2048 0%, #b04070 50%, #e07098 100%);
+}
+
+.frame-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  /* object-fit: cover fills the frame; image is not cut by the frame border
+     (white padding acts as the border, image fills only the inner area)    */
+  object-fit: cover;
+  display: block;
+}
+
+/* ===== TAP HINT ===== */
+.tap-hint {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(0.78rem, 2.5vw, 0.9rem);
+  color: #f5bbd0;
+  text-align: center;
+  opacity: 0.7;
+  letter-spacing: 0.04em;
+  transition: opacity 0.85s ease;
+}
+
+.tap-hint.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===== CONTINUE BUTTON WRAP ===== */
+.mem-continue-wrap {
+  opacity: 0;
+  transform: translateY(14px);
+  pointer-events: none;
+  transition: opacity 0.95s ease, transform 0.95s ease;
+  margin-left: 2rem;
+}
+
+.mem-continue-wrap.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+/* ===== CONTINUE BUTTON — glassmorphism to match site style ===== */
+.mem-continue-btn {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(0.88rem, 3vw, 1.05rem);
+  font-weight: 400;
+  color: #ffe8f3;
+  letter-spacing: 0.03em;
+  padding: 1rem 2.2rem;
+  border-radius: 50px;
+  cursor: pointer;
+  text-align: center;
+  background: rgba(255, 200, 220, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(230, 170, 150, 0.45);
+  box-shadow:
+    0 8px 28px rgba(120, 10, 60, 0.4),
+    inset 0 1px 0 rgba(255, 225, 215, 0.25),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.08);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.mem-continue-btn:hover {
+  transform: translateY(-3px);
+  border-color: rgba(245, 195, 170, 0.75);
+  box-shadow:
+    0 12px 36px rgba(180, 50, 110, 0.5),
+    0 0 30px rgba(235, 175, 150, 0.35),
+    inset 0 1px 0 rgba(255, 230, 220, 0.32);
+}
+
+.mem-continue-btn:active {
+  transform: scale(0.97);
+}
+
+/* ===== FOOTER ===== */
+.mem-footer {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(1rem, 3.5vw, 1.35rem);
+  color: #d08090;
+  text-align: center;
+  opacity: 0;
+  animation: footerFade 2s ease forwards 1s;
+}
+
+@keyframes footerFade {
+  to { opacity: 0.65; }
+}
+
+/* ============================================
+   PAGE TRANSITION SYSTEM
+   ============================================ */
+@keyframes pageEnter {
+  0%   { opacity: 0; transform: translateY(14px) scale(0.99); }
+  100% { opacity: 1; transform: translateY(0)     scale(1);   }
+}
+
+.page-root {
+  animation: pageEnter 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.page-exit {
+  opacity: 0 !important;
+  transform: translateY(-8px) scale(0.97) !important;
+  transition: opacity 0.6s ease, transform 0.6s ease !important;
+  pointer-events: none !important;
+}
+
+/* ============================================
+   SMART BACK BUTTON
+   ============================================ */
+.smart-back-btn {
+  position: fixed;
+  top: 1.4rem;
+  left: 1.4rem;
+  z-index: 80;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: rgba(255, 200, 220, 0.08);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1.5px solid rgba(230, 170, 150, 0.4);
+  box-shadow:
+    0 4px 16px rgba(120, 10, 60, 0.35),
+    inset 0 1px 0 rgba(255, 225, 215, 0.22);
+  opacity: 0;
+  animation: backBtnFadeIn 0.7s ease forwards 0.3s;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+@keyframes backBtnFadeIn {
+  to { opacity: 1; }
+}
+
+.smart-back-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.smart-back-btn:hover {
+  transform: scale(1.08);
+  border-color: rgba(245, 195, 170, 0.7);
+  box-shadow:
+    0 6px 22px rgba(180, 50, 110, 0.45),
+    0 0 18px rgba(235, 175, 150, 0.3),
+    inset 0 1px 0 rgba(255, 230, 220, 0.28);
+}
+
+.smart-back-btn:active {
+  transform: scale(0.93);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+  .memories-page {
+    padding: 4.5rem 1rem 2.5rem;
+    gap: 1.2rem;
+  }
+
+  .smart-back-btn {
+    top: 1rem;
+    left: 1rem;
+    width: 38px;
+    height: 38px;
+  }
+}
+
+@media (max-width: 360px) {
+  .stack-scene {
+    width: 92vw;
+    height: 112vw;
+  }
+  
+  /* ADDED: Keep the photo border proportional when it shrinks drastically */
+  .photo-frame {
+    padding: 9px;
+  }
+}
+/* ============================================
+   MOBILE POLISH PASS
+   ============================================ */
+@media (max-width: 640px) {
+  body {
+    min-height: 100svh;
+  }
+
+  .memories-page {
+    min-height: 100svh;
+    padding: calc(4rem + env(safe-area-inset-top)) 0.9rem calc(2rem + env(safe-area-inset-bottom));
+    gap: 1.05rem;
+  }
+
+  .stack-scene {
+    width: min(88vw, 340px);
+    height: min(100vw, 390px);
+  }
+
+  .photo-frame {
+  width: clamp(160px, 58vw, 240px);
+  height: clamp(160px, 55vw, 240px);
+}
+
+  .mem-continue-btn {
+    width: min(100%, 21rem);
+    padding: 0.9rem 1.25rem;
+    line-height: 1.45;
+  }
+}
+
+@media (max-width: 380px) {
+  .memories-page {
+    gap: 0.9rem;
+  }
+
+  .stack-scene {
+    width: 88vw;
+    height: 104vw;
+  }
+
+  .photo-frame {
+  width: 60vw;
+  height: 82vw;
+}
+}
+
+/* ============================================
+   PHOTO SAFETY PASS
+   Shows full photos inside frames without cropping faces/details.
+   ============================================ */
+.frame-inner {
+  background:
+    radial-gradient(circle at 50% 35%, rgba(255, 245, 248, 0.22), rgba(120, 20, 70, 0.12)),
+    rgba(255, 235, 242, 0.38);
+}
+
+.frame-img {
+  object-fit: cover;
+  object-position: center top;
+}
+.frame-caption {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(0.9rem, 2vw, 0.75rem);
+  color: #9b3a5a;
+  text-align: center;
+  display: block;
+  margin-top: 6px;
+  opacity: 0.85;
+}
+
+/* ============================================
+   PER-PHOTO ZOOM CONTROL
+   frame-0 shows photo1, frame-1 shows photo2, frame-2 shows photo3 initially.
+   After cycling, images swap — so these control the FRAME, not a specific photo.
+
+   object-fit: cover  → zoomed in, fills frame (may crop)
+   object-fit: contain → zoomed out, shows full photo (may show bg)
+   object-position: center top    → show top of image
+   object-position: center center → show middle
+   object-position: center 20%   → show slightly above center
+   ============================================ */
+#frame-0 .frame-img {
+  object-fit: cover;
+  object-position: center top;
+}
+
+#frame-1 .frame-img {
+  object-fit: contain;
+  object-position: center center;
+  
+}
+
+#frame-2 .frame-img {
+  object-fit: cover;
+  object-position: center top;
+}

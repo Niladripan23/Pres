@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Handful of Memories💖</title>
+  <link rel="stylesheet" href="memories.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Floating hearts -->
+  <canvas id="hearts-canvas"></canvas>
+
+  <!-- Main page -->
+  <div class="memories-page page-root" id="memoriesPage">
+
+    <p class="mem-eyebrow">Before the next surprise...</p>
+
+    <h2 class="mem-title">😁A Collection of Smiles😜</h2>
+
+    <!-- Float wrapper keeps the stack alive and gentle -->
+    <div class="stack-floater" id="stackFloater">
+
+      <div class="stack-scene" id="stackScene"
+           role="button" tabindex="0" aria-label="Tap to flip through photos"
+           onclick="cyclePhoto()" onkeydown="if(event.key==='Enter'||event.key===' ')cyclePhoto()">
+
+        <div class="photo-frame" id="frame-0">
+          <div class="frame-inner">
+            <img src="photo1.jpg" alt="memory" class="frame-img" />  
+          </div>
+          <p class="frame-caption">her  ♡</p>
+        </div>
+
+        <div class="photo-frame" id="frame-1">
+          <div class="frame-inner">
+            <img src="photo2.jpg" alt="memory" class="frame-img" />
+          </div>
+          <p class="frame-caption">❤️❤️💖</p>
+        </div>
+
+        <div class="photo-frame" id="frame-2">
+          <div class="frame-inner">
+            <img src="photo3.jpg" alt="memory" class="frame-img" />
+          </div>
+          <p class="frame-caption">her smile ♡</p>
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <p class="tap-hint" id="tapHint">Tap the stack to flip through...</p>
+
+    <div class="mem-continue-wrap" id="continueWrap">
+      <button class="mem-continue-btn" onclick="goToJar()">
+        Memories are nice... but there's more I wanted to share <br>💖💖💖
+      </button>
+    </div>
+
+    <p class="mem-footer">Some snapshots I couldn't leave out.</p>
+
+  </div>
+
+  <script src="sound.js"></script>
+  <script src="bgmusic.js"></script>
+  <script src="memories.js"></script>
+</body>
+</html>

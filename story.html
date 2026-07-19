@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Story Behind Your Surprise ♡</title>
+  <link rel="stylesheet" href="story.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Floating hearts background -->
+  <canvas id="hearts-canvas"></canvas>
+
+  <!-- Fireflies / glowing particles -->
+  <canvas id="fireflies-canvas"></canvas>
+
+  <!-- ===== SCREEN 1 — THE STORY MESSAGE ===== -->
+  <div class="story-screen page-root" id="storyScreen">
+
+    <!-- Header PNG (rename your uploaded image to: story-header.png) -->
+    <div class="story-header">
+      <img src="story-header.png" alt="The Story Behind Your Surprise" class="story-header-img" />
+    </div>
+
+    <!-- The Scrapbook Image Centerpiece -->
+    <div class="scrapbook-wrapper" id="scrapbookWrapper">
+      
+      <!-- REPLACE 'scrapbook.png' WITH YOUR ACTUAL IMAGE PATH -->
+      <img src="scrapbook.png" alt="A voice message for you" class="scrapbook-img" />
+      
+      <!-- Interactive Play/Pause Zone (Overlays the PNG play button) -->
+      <button class="audio-play-btn" id="audioPlayBtn" aria-label="Play voice message">
+        <!-- Play icon (visible by default) -->
+        <svg id="playIcon" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+        <!-- Pause icon (hidden until playing) -->
+        <svg id="pauseIcon" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+          <rect x="6" y="4" width="4" height="16" rx="1"/>
+          <rect x="14" y="4" width="4" height="16" rx="1"/>
+        </svg>
+      </button>
+
+      <!-- Interactive Progress Zone (Overlays the PNG waveform) -->
+      <div class="waveform-container">
+         <div class="waveform-fill" id="waveformFill"></div>
+         <input type="range" id="audioSeeker" min="0" max="100" value="0" aria-label="Seek audio" />
+      </div>
+
+      <!-- Live Time Tracking (Covers the hardcoded "01:24" on the PNG) -->
+      <div class="audio-time-overlay">
+        <span id="audioCurrentTime">00:02</span>
+      </div>
+
+      <!-- Hidden Audio Source -->
+      <!-- REPLACE 'voice-message.mp3' WITH YOUR ACTUAL AUDIO FILE PATH -->
+      <audio id="storyAudio" src="voice-message.mp3" preload="metadata"></audio>
+    </div>
+
+    <!-- Redesigned Outline Button (Initially disabled) -->
+    <button class="continue-btn disabled-btn outline-glow" id="storyContinueBtn" onclick="goToFeedback()">
+      ♡ Okay, your turn to make me smile <span>›</span>
+    </button>
+
+  </div>
+
+  <!-- ===== SCREEN 2 — FEEDBACK ===== -->
+  <div class="feedback-screen" id="feedbackScreen">
+
+    <h2 class="feedback-heading" id="feedbackHeading">✨ Let me hear that pretty mind of yours ✨</h2>
+
+    <div class="feedback-card">
+      <textarea
+        class="feedback-textarea"
+        id="feedbackTextarea"
+        placeholder="Say anything... a thought, a feeling, a tiny secret. This little space is just for you ♡"
+        rows="8"
+        wrap="soft"
+        spellcheck="true"
+        oninput="onFeedbackInput()"
+      ></textarea>
+      <p class="feedback-status" id="feedbackStatus" aria-live="polite"></p>
+    </div>
+
+    <button class="continue-btn submit-btn" id="submitBtn" onclick="submitFeedback()">
+      ♡ Submit
+    </button>
+
+  </div>
+
+  <!-- ===== SCREEN 2B — ALREADY SUBMITTED THANK YOU ===== -->
+  <div class="feedback-thanks-screen" id="feedbackThanksScreen">
+
+    <h2 class="feedback-thanks-heading">You already left me something beautiful ♡</h2>
+    <p class="feedback-thanks-sub">Thank you for sharing your heart. I kept this step soft for your next visit.</p>
+
+    <button class="continue-btn" id="feedbackThanksContinueBtn" onclick="showFinalScreen(false)">
+      Take me to the ending ♡
+    </button>
+
+  </div>
+
+  <!-- ===== SCREEN 3 — THANK YOU / VISIT AGAIN ===== -->
+  <div class="final-screen" id="finalScreen">
+
+    <h2 class="final-heading" id="finalHeading">This may be the last page, but not the last smile❤️‍🩹</h2>
+    <p class="final-sub">I hope this little surprise stays with you for a while...</p>
+
+    <button class="continue-btn" id="visitAgainBtn" onclick="visitAgain()">
+       Kemon Laglo?😉<br>ghurbi abar?
+    </button>
+
+  </div>
+
+  <script src="sound.js"></script>
+  <script src="story.js"></script>
+</body>
+</html>

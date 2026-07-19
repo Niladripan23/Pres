@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Little Poem ♡</title>
+  <link rel="stylesheet" href="poem.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Floating hearts (same as opening page) -->
+  <canvas id="hearts-canvas"></canvas>
+
+  <!-- Floating petals canvas -->
+  <canvas id="petals-canvas"></canvas>
+
+  <!-- Corner branch decorations -->
+  <div class="corner-decor corner-tl">
+    <svg viewBox="0 0 160 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 200 Q30 140 60 100 Q90 60 140 20" stroke="#8a2048" stroke-width="2" fill="none" opacity="0.6"/>
+      <path d="M40 160 Q70 130 100 90" stroke="#8a2048" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <path d="M60 100 Q50 70 70 50" stroke="#8a2048" stroke-width="1.2" fill="none" opacity="0.4"/>
+      <!-- blossoms -->
+      <circle cx="140" cy="20"  r="5"   fill="#d06080" opacity="0.7"/>
+      <circle cx="138" cy="16"  r="3.5" fill="#e8a0b8" opacity="0.6"/>
+      <circle cx="144" cy="18"  r="3"   fill="#f0c0d0" opacity="0.5"/>
+      <circle cx="100" cy="90"  r="4.5" fill="#d06080" opacity="0.65"/>
+      <circle cx="97"  cy="86"  r="3"   fill="#e8a0b8" opacity="0.55"/>
+      <circle cx="104" cy="88"  r="2.5" fill="#f0c0d0" opacity="0.5"/>
+      <circle cx="70"  cy="50"  r="4"   fill="#c85070" opacity="0.6"/>
+      <circle cx="67"  cy="47"  r="2.5" fill="#e8a0b8" opacity="0.5"/>
+      <circle cx="120" cy="55"  r="3.5" fill="#d06080" opacity="0.55"/>
+      <circle cx="80"  cy="130" r="3"   fill="#c85070" opacity="0.5"/>
+    </svg>
+  </div>
+
+  <div class="corner-decor corner-tr">
+    <svg viewBox="0 0 160 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M150 200 Q130 140 100 100 Q70 60 20 20" stroke="#8a2048" stroke-width="2" fill="none" opacity="0.6"/>
+      <path d="M120 160 Q90 130 60 90" stroke="#8a2048" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <path d="M100 100 Q110 70 90 50" stroke="#8a2048" stroke-width="1.2" fill="none" opacity="0.4"/>
+      <circle cx="20"  cy="20"  r="5"   fill="#d06080" opacity="0.7"/>
+      <circle cx="22"  cy="16"  r="3.5" fill="#e8a0b8" opacity="0.6"/>
+      <circle cx="16"  cy="18"  r="3"   fill="#f0c0d0" opacity="0.5"/>
+      <circle cx="60"  cy="90"  r="4.5" fill="#d06080" opacity="0.65"/>
+      <circle cx="63"  cy="86"  r="3"   fill="#e8a0b8" opacity="0.55"/>
+      <circle cx="56"  cy="88"  r="2.5" fill="#f0c0d0" opacity="0.5"/>
+      <circle cx="90"  cy="50"  r="4"   fill="#c85070" opacity="0.6"/>
+      <circle cx="93"  cy="47"  r="2.5" fill="#e8a0b8" opacity="0.5"/>
+      <circle cx="40"  cy="55"  r="3.5" fill="#d06080" opacity="0.55"/>
+      <circle cx="80"  cy="130" r="3"   fill="#c85070" opacity="0.5"/>
+    </svg>
+  </div>
+
+  <div class="corner-decor corner-bl">
+    <svg viewBox="0 0 160 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 0 Q30 60 60 100 Q90 140 140 180" stroke="#8a2048" stroke-width="2" fill="none" opacity="0.6"/>
+      <path d="M40 40 Q70 70 100 110" stroke="#8a2048" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <circle cx="140" cy="180" r="5"   fill="#d06080" opacity="0.7"/>
+      <circle cx="137" cy="184" r="3.5" fill="#e8a0b8" opacity="0.6"/>
+      <circle cx="100" cy="110" r="4"   fill="#d06080" opacity="0.6"/>
+      <circle cx="97"  cy="114" r="2.5" fill="#e8a0b8" opacity="0.5"/>
+      <circle cx="60"  cy="60"  r="3.5" fill="#c85070" opacity="0.55"/>
+    </svg>
+  </div>
+
+  <div class="corner-decor corner-br">
+    <svg viewBox="0 0 160 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M150 0 Q130 60 100 100 Q70 140 20 180" stroke="#8a2048" stroke-width="2" fill="none" opacity="0.6"/>
+      <path d="M120 40 Q90 70 60 110" stroke="#8a2048" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <circle cx="20"  cy="180" r="5"   fill="#d06080" opacity="0.7"/>
+      <circle cx="23"  cy="184" r="3.5" fill="#e8a0b8" opacity="0.6"/>
+      <circle cx="60"  cy="110" r="4"   fill="#d06080" opacity="0.6"/>
+      <circle cx="63"  cy="114" r="2.5" fill="#e8a0b8" opacity="0.5"/>
+      <circle cx="100" cy="60"  r="3.5" fill="#c85070" opacity="0.55"/>
+    </svg>
+  </div>
+
+  <!-- Main page content -->
+  <div class="poem-page page-root" id="poemPage">
+
+    <div class="memory-scene" id="memoryScene">
+
+      <!-- Two floating polaroids -->
+      <div class="polaroid-zone">
+
+        <div class="polaroid pol-left">
+          <div class="polaroid-img">
+            <!-- REPLACE: add your photo here -->
+            <!-- <img src="photo1.jpg" alt="memory" /> -->
+             <img src="photos1.jpg" alt="memory" />
+          </div>
+          <p class="polaroid-caption">As Always❤️🥹</p>
+        </div>
+
+        <div class="polaroid pol-right">
+          <div class="polaroid-img">
+            <!-- REPLACE: add your photo here -->
+            <!-- <img src="photo2.jpg" alt="memory" /> -->
+            <img src="photos2.jpg" alt="memory" />
+          </div>
+          <p class="polaroid-caption">Ma Saraswati❤️</p>
+        </div>
+
+      </div>
+
+      <div class="poem-centerpiece">
+
+        <!-- Poem title — CHANGE THIS ANYTIME -->
+        <h2 class="poem-title">The Birthday Wish<br>I Couldn't Wrap</h2>
+
+        <!-- Decorative divider -->
+        <div class="poem-divider">
+      <svg viewBox="0 0 280 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="12" x2="108" y2="12" stroke="#c9813a" stroke-width="0.8" opacity="0.5"/>
+        <path d="M112 12 L116 8 L120 12 L116 16Z" fill="#c9813a" opacity="0.6"/>
+        <circle cx="136" cy="12" r="4" fill="none" stroke="#e8a84a" stroke-width="1.2" opacity="0.8"/>
+        <circle cx="136" cy="12" r="1.5" fill="#e8a84a" opacity="0.8"/>
+        <path d="M152 12 L156 8 L160 12 L156 16Z" fill="#c9813a" opacity="0.6"/>
+        <line x1="164" y1="12" x2="280" y2="12" stroke="#c9813a" stroke-width="0.8" opacity="0.5"/>
+      </svg>
+    </div>
+
+    <!-- Glassmorphism poem box -->
+    <div class="poem-box">
+
+      <div class="poem-text" id="poemText">
+        <!-- PASTE YOUR POEM LINES HERE as <span class="poem-line"> elements -->
+        <!-- Each line will be typewritten one by one                        -->
+        <!-- EXAMPLE FORMAT (replace with your actual lines):                -->
+
+        <span class="poem-line">If I could, I would wrap the stars for you,</span>
+        <span class="poem-line">the ones that stay awake when the world is quiet.</span>
+        <span class="poem-line">I would bottle up the softest sunsets,</span>
+        <span class="poem-line">so every evening reminds you</span>
+        <span class="poem-line">that endings can be beautiful too.</span>
+
+        <span class="poem-line poem-gap"></span><!-- blank line between stanzas -->
+
+        <span class="poem-line">I would gather every little blessing</span>
+        <span class="poem-line">the universe has been saving,</span>
+        <span class="poem-line">and place them gently in your hands,</span>
+        <span class="poem-line">for the days when you forget</span>
+        <span class="poem-line">how incredibly strong and loved you are.</span>
+
+        <span class="poem-line poem-gap"></span>
+
+        <span class="poem-line">But since wishes can't be wrapped in paper,</span>
+        <span class="poem-line">I'll just leave this here...</span>
+        <span class="poem-line">A heart that's always cheering for you,</span>
+        <span class="poem-line">in every dream you chase,</span>
+        <span class="poem-line">in every version of you yet to bloom.</span>
+      </div>
+
+      <!-- Cursor blink at the end of typing -->
+      <span class="type-cursor" id="typeCursor">|</span>
+
+    </div>
+
+        <!-- Bottom ornament heart -->
+        <div class="bottom-heart">♡</div>
+
+      </div>
+
+    </div>
+
+    <!-- Bottom divider -->
+    <div class="poem-divider bottom-div">
+      <svg viewBox="0 0 280 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="12" x2="108" y2="12" stroke="#c9813a" stroke-width="0.8" opacity="0.4"/>
+        <path d="M112 12 L116 8 L120 12 L116 16Z" fill="#c9813a" opacity="0.5"/>
+        <circle cx="136" cy="12" r="4" fill="none" stroke="#e8a84a" stroke-width="1.2" opacity="0.7"/>
+        <circle cx="136" cy="12" r="1.5" fill="#e8a84a" opacity="0.7"/>
+        <path d="M152 12 L156 8 L160 12 L156 16Z" fill="#c9813a" opacity="0.5"/>
+        <line x1="164" y1="12" x2="280" y2="12" stroke="#c9813a" stroke-width="0.8" opacity="0.4"/>
+      </svg>
+    </div>
+
+    <!-- Footer -->
+    <p class="poem-footer">Happy Birthday, once again. ♥</p>
+
+    <div class="poem-next-wrap">
+      <button class="poem-next-btn" onclick="goToJar()">
+        Next page thinks you're cute too 😏♡
+      </button>
+    </div>
+
+  </div>
+
+  <script src="sound.js"></script>
+  <script src="bgmusic.js"></script>
+  <script src="poem.js"></script>
+</body>
+</html>
+

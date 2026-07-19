@@ -1,0 +1,401 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Jar Full of Little Notes ♡</title>
+  <link rel="stylesheet" href="jar.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Floating hearts background -->
+  <canvas id="hearts-canvas"></canvas>
+
+  <!-- Page -->
+  <div class="jar-page page-root">
+
+    <!-- Title -->
+    <h1 class="jar-title">A Jar Full of Little Notes</h1>
+    <p class="jar-subtitle">Little things I want you to know,<br>whenever you need a reminder. ♡</p>
+
+    <!-- Main jar area -->
+    <div class="jar-scene" id="jarScene">
+
+      <!-- Tap hint -->
+      <p class="tap-hint" id="tapHint">Tap me...</p>
+
+      <!-- Tap progress dots -->
+      <div class="tap-dots" id="tapDots">
+        <span class="tap-dot" id="dot0"></span>
+        <span class="tap-dot" id="dot1"></span>
+        <span class="tap-dot" id="dot2"></span>
+      </div>
+
+      <!-- "For You" tag -->
+      <div class="jar-tag">
+        <span>For<br>You ♡</span>
+      </div>
+
+      <!-- THE JAR SVG -->
+      <svg class="jar-svg" id="jarSvg" viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- Horizontal "glass tube" gradient — creates cylindrical light falloff -->
+          <linearGradient id="glassBody" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#5a1438" stop-opacity="0.32"/>
+            <stop offset="7%"   stop-color="#ffeef5" stop-opacity="0.58"/>
+            <stop offset="18%"  stop-color="#f0a8c5" stop-opacity="0.10"/>
+            <stop offset="45%"  stop-color="#a8405f" stop-opacity="0.13"/>
+            <stop offset="55%"  stop-color="#a8405f" stop-opacity="0.13"/>
+            <stop offset="82%"  stop-color="#f0a8c5" stop-opacity="0.10"/>
+            <stop offset="93%"  stop-color="#ffeef5" stop-opacity="0.48"/>
+            <stop offset="100%" stop-color="#5a1438" stop-opacity="0.32"/>
+          </linearGradient>
+
+          <!-- Vertical light/shadow overlay — blended on top for depth -->
+          <linearGradient id="glassVertical" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.32"/>
+            <stop offset="30%"  stop-color="#ffffff" stop-opacity="0.04"/>
+            <stop offset="65%"  stop-color="#000000" stop-opacity="0.04"/>
+            <stop offset="100%" stop-color="#000000" stop-opacity="0.30"/>
+          </linearGradient>
+
+          <linearGradient id="glassShoulder" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%"   stop-color="#ffeef5" stop-opacity="0.55"/>
+            <stop offset="100%" stop-color="#a8405f" stop-opacity="0.22"/>
+          </linearGradient>
+
+          <!-- Soft ambient shine blob — adds gentle glow on upper-left of glass -->
+          <radialGradient id="glassShine" cx="35%" cy="22%" r="48%">
+            <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.32"/>
+            <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+          </radialGradient>
+
+          <!-- Cylindrical curvature shading — darker toward edges, light center -->
+          <radialGradient id="glassCurve" cx="50%" cy="48%" r="65%">
+            <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.07"/>
+            <stop offset="60%"  stop-color="#000000" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#4a1030" stop-opacity="0.22"/>
+          </radialGradient>
+
+          <!-- Rose gold lid gradients -->
+          <linearGradient id="lidGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%"   stop-color="#fbe6dd"/>
+            <stop offset="35%"  stop-color="#eac0b8"/>
+            <stop offset="70%"  stop-color="#d9a39b"/>
+            <stop offset="100%" stop-color="#bb8079"/>
+          </linearGradient>
+          <linearGradient id="lidTopGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%"   stop-color="#fff5ef"/>
+            <stop offset="50%"  stop-color="#f2c8bf"/>
+            <stop offset="100%" stop-color="#d6a89f"/>
+          </linearGradient>
+          <linearGradient id="lidShadow" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%"   stop-color="#9a5650" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#8a4842" stop-opacity="0.35"/>
+          </linearGradient>
+
+          <radialGradient id="chitsGlow" cx="50%" cy="55%" r="55%">
+            <stop offset="0%"   stop-color="#f060a0" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#9a1c58" stop-opacity="0.65"/>
+          </radialGradient>
+
+          <!-- Paper ball shading — 3 pastel variants -->
+          <radialGradient id="ballGrad1" cx="35%" cy="28%" r="75%">
+            <stop offset="0%"   stop-color="#fde8f0"/>
+            <stop offset="55%"  stop-color="#e8608a"/>
+            <stop offset="100%" stop-color="#b8385f"/>
+          </radialGradient>
+          <radialGradient id="ballGrad2" cx="35%" cy="28%" r="75%">
+            <stop offset="0%"   stop-color="#fceaf2"/>
+            <stop offset="55%"  stop-color="#d04070"/>
+            <stop offset="100%" stop-color="#a02850"/>
+          </radialGradient>
+          <radialGradient id="ballGrad3" cx="35%" cy="28%" r="75%">
+            <stop offset="0%"   stop-color="#fff0f5"/>
+            <stop offset="55%"  stop-color="#f0789e"/>
+            <stop offset="100%" stop-color="#c8506e"/>
+          </radialGradient>
+
+          <filter id="softBlur"><feGaussianBlur stdDeviation="2.2"/></filter>
+          <filter id="shadowBlur"><feGaussianBlur stdDeviation="3.5"/></filter>
+
+          <clipPath id="jarClip">
+            <path d="M 56 104 C 44 104 38 138 36 178 C 34 218 36 258 44 280 C 51 298 78 304 120 304 C 162 304 189 298 196 280 C 204 258 206 218 204 178 C 202 138 196 104 184 104 Z"/>
+          </clipPath>
+        </defs>
+
+        <!-- Ground shadow -->
+        <ellipse cx="120" cy="312" rx="86" ry="10" fill="rgba(0,0,0,0.45)" filter="url(#shadowBlur)"/>
+
+        <!-- ── PAPER BALLS INSIDE (visible through glass) ── -->
+        <g clip-path="url(#jarClip)" class="chits-inside" id="chitsInside">
+          <ellipse cx="120" cy="250" rx="80" ry="50" fill="url(#chitsGlow)" opacity="0.72"/>
+
+          <!-- 5 message balls — vary in size & rotation, scattered organically -->
+          <g class="jar-ball" id="jarBall0" transform="translate(82,262) rotate(18)">
+            <circle r="20" fill="url(#ballGrad1)"/>
+            <path d="M -11 -7 Q 0 -14 12 -4"  stroke="rgba(255,255,255,0.45)" stroke-width="1.2" fill="none"/>
+            <path d="M -9 4 Q 0 9 10 2"        stroke="rgba(110,20,55,0.3)"   stroke-width="1.2" fill="none"/>
+            <ellipse cx="-6" cy="-7" rx="6" ry="4" fill="rgba(255,255,255,0.35)"/>
+          </g>
+
+          <g class="jar-ball" id="jarBall1" transform="translate(140,246) rotate(-25)">
+            <circle r="17" fill="url(#ballGrad2)"/>
+            <path d="M -9 -6 Q 0 -12 10 -3"  stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"/>
+            <path d="M -7 3 Q 0 7 8 2"        stroke="rgba(110,20,55,0.3)"   stroke-width="1.1" fill="none"/>
+            <ellipse cx="-5" cy="-6" rx="5" ry="3.5" fill="rgba(255,255,255,0.35)"/>
+          </g>
+
+          <g class="jar-ball" id="jarBall2" transform="translate(170,280) rotate(40)">
+            <circle r="15" fill="url(#ballGrad3)"/>
+            <path d="M -8 -5 Q 0 -10 9 -3"   stroke="rgba(255,255,255,0.45)" stroke-width="1" fill="none"/>
+            <path d="M -6 3 Q 0 6 7 1.5"      stroke="rgba(110,20,55,0.3)"   stroke-width="1" fill="none"/>
+            <ellipse cx="-4.5" cy="-5" rx="4.5" ry="3" fill="rgba(255,255,255,0.35)"/>
+          </g>
+
+          <g class="jar-ball" id="jarBall3" transform="translate(98,212) rotate(-15)">
+            <circle r="14" fill="url(#ballGrad2)"/>
+            <path d="M -7 -4.5 Q 0 -9 8 -2.5" stroke="rgba(255,255,255,0.45)" stroke-width="1" fill="none"/>
+            <path d="M -6 2.5 Q 0 5.5 6.5 1.5" stroke="rgba(110,20,55,0.3)"   stroke-width="1" fill="none"/>
+            <ellipse cx="-4" cy="-4.5" rx="4" ry="2.8" fill="rgba(255,255,255,0.35)"/>
+          </g>
+
+          <g class="jar-ball" id="jarBall4" transform="translate(150,208) rotate(55)">
+            <circle r="16" fill="url(#ballGrad1)"/>
+            <path d="M -8.5 -5.5 Q 0 -11 9.5 -3" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"/>
+            <path d="M -7 3 Q 0 6.5 7.5 1.8"      stroke="rgba(110,20,55,0.3)"   stroke-width="1.1" fill="none"/>
+            <ellipse cx="-4.8" cy="-5.5" rx="4.8" ry="3.2" fill="rgba(255,255,255,0.35)"/>
+          </g>
+
+          <g class="jar-ball" id="jarBall5" transform="translate(120,230) rotate(-35)">
+            <circle r="16" fill="url(#ballGrad1)"/>
+            <path d="M -8.5 -5.5 Q 0 -11 9.5 -3" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"/>
+            <path d="M -7 3 Q 0 6.5 7.5 1.8"      stroke="rgba(110,20,55,0.3)"   stroke-width="1.1" fill="none"/>
+            <ellipse cx="-4.8" cy="-5.5" rx="4.8" ry="3.2" fill="rgba(255,255,255,0.35)"/>
+          </g>
+
+          <g class="jar-ball" id="jarBall6" transform="translate(75,250) rotate(20)">
+            <circle r="16" fill="url(#ballGrad1)"/>
+            <path d="M -8.5 -5.5 Q 0 -11 9.5 -3" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"/>
+            <path d="M -7 3 Q 0 6.5 7.5 1.8"      stroke="rgba(110,20,55,0.3)"   stroke-width="1.1" fill="none"/>
+            <ellipse cx="-4.8" cy="-5.5" rx="4.8" ry="3.2" fill="rgba(255,255,255,0.35)"/>
+          </g>
+
+
+          <g class="jar-ball" id="jarBall7" transform="translate(160,215) rotate(-10)">
+            <circle r="16" fill="url(#ballGrad1)"/>
+            <path d="M -8.5 -5.5 Q 0 -11 9.5 -3" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"/>
+            <path d="M -7 3 Q 0 6.5 7.5 1.8"      stroke="rgba(110,20,55,0.3)"   stroke-width="1.1" fill="none"/>
+            <ellipse cx="-4.8" cy="-5.5" rx="4.8" ry="3.2" fill="rgba(255,255,255,0.35)"/>
+          </g>
+
+          <g class="jar-ball" id="jarBall8" transform="translate(105,285) rotate(45)">
+            <circle r="16" fill="url(#ballGrad1)"/>
+            <path d="M -8.5 -5.5 Q 0 -11 9.5 -3" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"/>
+            <path d="M -7 3 Q 0 6.5 7.5 1.8"      stroke="rgba(110,20,55,0.3)"   stroke-width="1.1" fill="none"/>
+            <ellipse cx="-4.8" cy="-5.5" rx="4.8" ry="3.2" fill="rgba(255,255,255,0.35)"/>
+          </g>
+
+          <g class="jar-ball" id="jarBall9" transform="translate(175,255) rotate(-50)">
+            <circle r="16" fill="url(#ballGrad1)"/>
+            <path d="M -8.5 -5.5 Q 0 -11 9.5 -3" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"/>
+            <path d="M -7 3 Q 0 6.5 7.5 1.8"      stroke="rgba(110,20,55,0.3)"   stroke-width="1.1" fill="none"/>
+            <ellipse cx="-4.8" cy="-5.5" rx="4.8" ry="3.2" fill="rgba(255,255,255,0.35)"/>
+          </g>
+
+          <g class="jar-ball" id="jarBall10" transform="translate(88,240) rotate(30)">
+            <circle r="16" fill="url(#ballGrad1)"/>
+            <path d="M -8.5 -5.5 Q 0 -11 9.5 -3" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"/>
+            <path d="M -7 3 Q 0 6.5 7.5 1.8"      stroke="rgba(110,20,55,0.3)"   stroke-width="1.1" fill="none"/>
+            <ellipse cx="-4.8" cy="-5.5" rx="4.8" ry="3.2" fill="rgba(255,255,255,0.35)"/>
+          </g>
+
+          <g class="jar-ball" id="jarBall11" transform="translate(155,270) rotate(-22)">
+            <circle r="16" fill="url(#ballGrad1)"/>
+            <path d="M -8.5 -5.5 Q 0 -11 9.5 -3" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"/>
+            <path d="M -7 3 Q 0 6.5 7.5 1.8"      stroke="rgba(110,20,55,0.3)"   stroke-width="1.1" fill="none"/>
+            <ellipse cx="-4.8" cy="-5.5" rx="4.8" ry="3.2" fill="rgba(255,255,255,0.35)"/>
+          </g>
+
+          <g class="jar-ball" id="jarBall12" transform="translate(110,200) rotate(15)">
+            <circle r="16" fill="url(#ballGrad1)"/>
+            <path d="M -8.5 -5.5 Q 0 -11 9.5 -3" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"/>
+            <path d="M -7 3 Q 0 6.5 7.5 1.8"      stroke="rgba(110,20,55,0.3)"   stroke-width="1.1" fill="none"/>
+            <ellipse cx="-4.8" cy="-5.5" rx="4.8" ry="3.2" fill="rgba(255,255,255,0.35)"/>
+          </g>
+
+          <g class="jar-ball" id="jarBall13" transform="translate(175,235) rotate(-42)">
+            <circle r="16" fill="url(#ballGrad1)"/>
+            <path d="M -8.5 -5.5 Q 0 -11 9.5 -3" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"/>
+            <path d="M -7 3 Q 0 6.5 7.5 1.8"      stroke="rgba(110,20,55,0.3)"   stroke-width="1.1" fill="none"/>
+            <ellipse cx="-4.8" cy="-5.5" rx="4.8" ry="3.2" fill="rgba(255,255,255,0.35)"/>
+          </g>
+
+
+
+          <!-- 2 decorative filler balls — always present, keep the jar feeling full -->
+          <g class="jar-ball-filler" transform="translate(116,290) rotate(10)">
+            <circle r="12" fill="url(#ballGrad3)" opacity="0.85"/>
+            <path d="M -6 -4 Q 0 -8 7 -2" stroke="rgba(255,255,255,0.4)" stroke-width="0.9" fill="none"/>
+            <ellipse cx="-3.5" cy="-4" rx="3.5" ry="2.4" fill="rgba(255,255,255,0.3)"/>
+          </g>
+          <g class="jar-ball-filler" transform="translate(180,235) rotate(-30)">
+            <circle r="11" fill="url(#ballGrad1)" opacity="0.8"/>
+            <path d="M -5.5 -3.5 Q 0 -7 6.5 -2" stroke="rgba(255,255,255,0.4)" stroke-width="0.9" fill="none"/>
+            <ellipse cx="-3.2" cy="-3.5" rx="3.2" ry="2.2" fill="rgba(255,255,255,0.3)"/>
+          </g>
+        </g>
+
+        <!-- ── JAR BODY (glass shell) ── -->
+        <path d="M 56 104 C 44 104 38 138 36 178 C 34 218 36 258 44 280 C 51 298 78 304 120 304 C 162 304 189 298 196 280 C 204 258 206 218 204 178 C 202 138 196 104 184 104 Z"
+              fill="url(#glassBody)" stroke="rgba(255,220,235,0.35)" stroke-width="1.5"/>
+
+        <!-- Vertical depth overlay (light top, dark bottom) -->
+        <path d="M 56 104 C 44 104 38 138 36 178 C 34 218 36 258 44 280 C 51 298 78 304 120 304 C 162 304 189 298 196 280 C 204 258 206 218 204 178 C 202 138 196 104 184 104 Z"
+              fill="url(#glassVertical)" style="mix-blend-mode:overlay" clip-path="url(#jarClip)"/>
+
+        <!-- Cylindrical curvature shading — gives the glass a rounded, dimensional feel -->
+        <path d="M 56 104 C 44 104 38 138 36 178 C 34 218 36 258 44 280 C 51 298 78 304 120 304 C 162 304 189 298 196 280 C 204 258 206 218 204 178 C 202 138 196 104 184 104 Z"
+              fill="url(#glassCurve)" style="mix-blend-mode:multiply" clip-path="url(#jarClip)"/>
+
+        <!-- Ambient shine — soft glow blob on the upper-left of the glass -->
+        <ellipse cx="78" cy="150" rx="58" ry="75" fill="url(#glassShine)"
+                 style="mix-blend-mode:soft-light" clip-path="url(#jarClip)"/>
+
+        <!-- Subtle glass distortion ripples across the chits (refraction feel) -->
+        <path d="M 40 232 Q 80 224 120 233 Q 160 242 200 230" fill="none"
+              stroke="rgba(255,255,255,0.12)" stroke-width="4" filter="url(#softBlur)" clip-path="url(#jarClip)"/>
+        <path d="M 40 268 Q 80 261 120 269 Q 160 277 200 266" fill="none"
+              stroke="rgba(255,255,255,0.08)" stroke-width="3" filter="url(#softBlur)" clip-path="url(#jarClip)"/>
+        <path d="M 42 290 Q 80 295 120 291 Q 158 287 198 293" fill="none"
+              stroke="rgba(0,0,0,0.06)" stroke-width="3" filter="url(#softBlur)" clip-path="url(#jarClip)"/>
+
+
+        <!-- Main glass highlight (left, broad refraction streak) -->
+        <path d="M 62 112 C 50 150 46 210 48 282" fill="none"
+              stroke="rgba(255,245,250,0.5)" stroke-width="10" stroke-linecap="round" filter="url(#softBlur)"/>
+        <!-- Secondary thin highlight -->
+        <path d="M 74 116 C 64 152 60 212 62 278" fill="none"
+              stroke="rgba(255,255,255,0.3)" stroke-width="3" stroke-linecap="round"/>
+        <!-- Right dim highlight -->
+        <path d="M 178 114 C 188 155 190 215 186 270" fill="none"
+              stroke="rgba(255,230,242,0.18)" stroke-width="5" stroke-linecap="round" filter="url(#softBlur)"/>
+
+        <!-- ── Reflection streaks (delicate, follow jar curve) ── -->
+        <!-- Diagonal shoulder reflection — shimmers occasionally -->
+        <path class="glass-reflect shimmer-a" d="M 96 76 C 88 96 82 118 86 144" fill="none"
+              stroke="rgba(255,255,255,0.35)" stroke-width="4" stroke-linecap="round" filter="url(#softBlur)"/>
+        <!-- Long curved reflection on upper-right shoulder/body -->
+        <path class="glass-reflect shimmer-b" d="M 168 88 C 180 122 188 172 184 222" fill="none"
+              stroke="rgba(255,255,255,0.22)" stroke-width="5" stroke-linecap="round" filter="url(#softBlur)"/>
+        <!-- Thin diagonal reflection across lower body -->
+        <path class="glass-reflect shimmer-c" d="M 70 240 C 92 230 132 235 172 246" fill="none"
+              stroke="rgba(255,255,255,0.15)" stroke-width="3" stroke-linecap="round" filter="url(#softBlur)"/>
+
+
+        <!-- Bottom glass shimmer -->
+        <ellipse cx="120" cy="298" rx="78" ry="8" fill="rgba(255,255,255,0.1)"/>
+        <!-- Bottom curve highlight -->
+        <path d="M 60 280 C 70 296 100 303 120 303" fill="none"
+              stroke="rgba(255,255,255,0.2)" stroke-width="3" stroke-linecap="round"/>
+
+        <!-- Shoulder / neck of jar -->
+        <path d="M 86 70 C 80 82 62 92 56 104 L 184 104 C 178 92 160 82 154 70 Z"
+              fill="url(#glassShoulder)" stroke="rgba(255,220,235,0.3)" stroke-width="1"/>
+        <!-- Shoulder highlight -->
+        <path d="M 89 75 C 82 86 68 95 60 102 L 110 102"
+              fill="none" stroke="rgba(255,250,252,0.5)" stroke-width="3" stroke-linecap="round"/>
+
+        <!-- Neck ring (glass lip where lid sits) -->
+        <rect x="82" y="60" width="76" height="12" rx="4"
+              fill="rgba(255,220,235,0.28)" stroke="rgba(255,200,225,0.4)" stroke-width="1"/>
+        <rect x="86" y="62" width="68" height="3" rx="1.5" fill="rgba(255,255,255,0.35)"/>
+
+        <!-- ── LID (rose gold) ── -->
+        <g class="jar-lid" id="jarLid">
+          <!-- Lid body -->
+          <rect x="76" y="16" width="88" height="44" rx="8"
+                fill="url(#lidGrad)" stroke="#caa099" stroke-width="1"/>
+
+          <!-- Bottom shadow for dimensionality -->
+          <rect x="76" y="46" width="88" height="14" rx="6" fill="url(#lidShadow)"/>
+
+          <!-- Decorative center groove (premium ring detail) -->
+          <rect x="76" y="35" width="88" height="3" fill="rgba(255,255,255,0.3)"/>
+          <rect x="76" y="38" width="88" height="1.5" fill="rgba(140,80,76,0.22)"/>
+
+          <!-- Elegant metallic ridge lines -->
+          <path d="M 94 22 Q 96 30 94 56" stroke="rgba(255,255,255,0.5)" stroke-width="0.8" fill="none"/>
+          <path d="M 96 22 Q 98 30 96 56" stroke="rgba(150,90,85,0.25)" stroke-width="0.8" fill="none"/>
+          <path d="M 120 23 Q 122 31 120 57" stroke="rgba(255,255,255,0.5)" stroke-width="0.8" fill="none"/>
+          <path d="M 122 23 Q 124 31 122 57" stroke="rgba(150,90,85,0.25)" stroke-width="0.8" fill="none"/>
+          <path d="M 146 22 Q 148 30 146 56" stroke="rgba(255,255,255,0.5)" stroke-width="0.8" fill="none"/>
+          <path d="M 148 22 Q 150 30 148 56" stroke="rgba(150,90,85,0.25)" stroke-width="0.8" fill="none"/>
+
+          <!-- Top face -->
+          <ellipse cx="120" cy="18" rx="44" ry="9"
+                   fill="url(#lidTopGrad)" stroke="#cda49b" stroke-width="1"/>
+
+          <!-- Top rim shine -->
+          <ellipse cx="120" cy="18" rx="44" ry="9" fill="none"
+                   stroke="rgba(255,255,255,0.45)" stroke-width="1"/>
+
+          <!-- Soft highlight blob on top -->
+          <ellipse cx="103" cy="14" rx="22" ry="4.5" fill="rgba(255,255,255,0.6)" filter="url(#softBlur)"/>
+
+          <!-- Small sparkle accent -->
+          <circle cx="138" cy="13" r="1.6" fill="rgba(255,255,255,0.85)"/>
+        </g>
+
+
+      </svg>
+
+      <!-- Fireflies canvas (flying inside jar) -->
+      <canvas class="fairy-canvas" id="fairyCanvas"></canvas>
+
+    </div>
+
+    <!-- Action area (shown after open) -->
+    <div class="action-area" id="actionArea">
+      <p class="take-hint">Reach in and pick a little note ♡</p>
+    </div>
+
+    <!-- Chit read counter -->
+    <p class="read-counter" id="readCounter"></p>
+    <p class="jar-completed-hint" id="jarCompletedHint">You've already discovered every little note here. ♡</p>
+
+    <!-- Footer -->
+    <p class="jar-footer">Proti ta muhurto sudhu amaderi....❤️</p>
+
+  </div>
+
+  <!-- Chit modal (unfolds to show message) -->
+  <div class="chit-modal" id="chitModal">
+    <div class="chit-paper" id="chitPaper">
+      <div class="chit-fold-overlay" id="chitFoldOverlay"></div>
+      <div class="chit-paper-inner">
+        <div class="chit-deco">♡</div>
+        <p class="chit-message" id="chitMessage"></p>
+        <div class="chit-deco chit-deco-bottom">✦</div>
+        <button class="chit-close" onclick="closeChit()">fold it back ♡</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- All-read overlay -->
+  <div class="all-read-overlay" id="allReadOverlay">
+    <div class="all-read-inner">
+      <p class="all-read-emoji">✨</p>
+      <h2 class="all-read-title">You've read them all...</h2>
+      <p class="all-read-sub">Every little note was written just for you.<br>Want to see more surprises?</p>
+      <button class="all-read-btn" onclick="goNext()">Yes, show me ♡</button>
+      <button class="all-read-reread" onclick="resetAndReadAgain()">Read them again</button>
+    </div>
+  </div>
+
+  <script src="sound.js"></script>
+  <script src="bgmusic.js"></script>
+  <script src="jar.js"></script>
+</body>
+</html>

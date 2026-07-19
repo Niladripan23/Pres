@@ -1,0 +1,229 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday 🎁</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+</head>
+<body class="entrance-pending">
+
+  <canvas id="hearts-canvas"></canvas>
+
+  
+  <div id="loading-screen" aria-live="polite">
+    <div class="loading-glow"></div>
+    <p class="loading-text">Wrapping a little surprise... 🎁</p>
+    <div class="loading-indicator" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+
+  <div id="opening-screen">
+
+    <div class="header-block">
+
+      <p class="eyebrow">💖A little surprise is waiting for you💖...</p>
+
+      <div class="swirl-divider top-divider">
+        <svg viewBox="0 0 320 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 14 Q40 4 70 14 Q100 24 130 14 Q160 4 160 14" stroke="#c9813a" stroke-width="1" fill="none" opacity="0.5"/>
+          <path d="M310 14 Q280 4 250 14 Q220 24 190 14 Q160 4 160 14" stroke="#c9813a" stroke-width="1" fill="none" opacity="0.5"/>
+          <circle cx="160" cy="14" r="3" fill="#e8a84a" opacity="0.8"/>
+          <circle cx="148" cy="14" r="1.5" fill="#e8a84a" opacity="0.5"/>
+          <circle cx="172" cy="14" r="1.5" fill="#e8a84a" opacity="0.5"/>
+        </svg>
+      </div>
+
+      <div class="arch-heading-wrap">
+        <span class="sparkle sp1">✨</span>
+        <span class="sparkle sp2">✦</span>
+        <span class="sparkle sp3">·</span>
+        <span class="sparkle sp4">✦</span>
+        <span class="sparkle sp4">✨</span>
+        <span class="sparkle sp4">✦</span>
+
+        <svg class="arch-svg" viewBox="0 0 600 130" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <path id="archPath" d="M 60 110 Q 300 50 540 110"/>
+            <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%"   stop-color="#ffe8a3"/>
+              <stop offset="25%"  stop-color="#f3c641"/>
+              <stop offset="55%"  stop-color="#fff5d0"/>
+              <stop offset="80%"  stop-color="#c29425"/>
+              <stop offset="100%" stop-color="#ffe8a3"/>
+            </linearGradient>
+            <filter id="goldGlow">
+              <feGaussianBlur stdDeviation="2.5" result="blur"/>
+              <feFlood flood-color="#f5c040" flood-opacity="0.4" result="color"/> <feComposite in="color" in2="blur" operator="in" result="glow"/>
+              <feMerge><feMergeNode in="glow"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="softGlow">
+              <feGaussianBlur stdDeviation="8" result="blur"/>
+              <feFlood flood-color="#f8d060" flood-opacity="0.25" result="color"/> <feComposite in="color" in2="blur" operator="in" result="glow"/>
+              <feMerge><feMergeNode in="glow"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <text font-size="50" font-weight="400" font-style="italic"
+                font-family="'Playfair Display', serif"
+                fill="#f8c840" opacity="0.3" filter="url(#softGlow)">
+            <textPath href="#archPath" startOffset="50%" text-anchor="middle">Happy Birthday,</textPath>
+          </text>
+          <text font-size="50" font-weight="400" font-style="italic"
+                font-family="'Playfair Display', serif"
+                fill="url(#goldGrad)" filter="url(#goldGlow)">
+            <textPath href="#archPath" startOffset="50%" text-anchor="middle">Happy Birthday,</textPath>
+          </text>
+        </svg>
+      </div>
+
+      <div class="name-line">
+        <span class="name-text">Puchkheee!</span>
+      </div>
+
+      <div class="swirl-divider bottom-divider">
+        <svg viewBox="0 0 320 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 14 Q40 4 70 14 Q100 24 130 14 Q160 4 160 14" stroke="#c9813a" stroke-width="1" fill="none" opacity="0.5"/>
+          <path d="M310 14 Q280 4 250 14 Q220 24 190 14 Q160 4 160 14" stroke="#c9813a" stroke-width="1" fill="none" opacity="0.5"/>
+          <circle cx="160" cy="14" r="3" fill="#e8a84a" opacity="0.8"/>
+          <circle cx="143" cy="14" r="1.2" fill="#e8a84a" opacity="0.4"/>
+          <circle cx="177" cy="14" r="1.2" fill="#e8a84a" opacity="0.4"/>
+        </svg>
+      </div>
+
+    </div>
+
+    <div class="gift-scene" id="giftScene" onclick="openGift()">
+      
+      <div class="orbit-wrap">
+        <div class="orbit-heart oh-1">❤️</div>
+        <div class="orbit-heart oh-2">❤️</div>
+        <div class="orbit-heart oh-3">❤️</div>
+      </div>
+
+      <div class="wiggle-lines">
+        <span class="wl wl-tl"></span>
+        <span class="wl wl-tr"></span>
+        <span class="wl wl-bl"></span>
+        <span class="wl wl-br"></span>
+      </div>
+
+      <div class="gift-3d" id="gift3d">
+        <div class="lid" id="lid">
+          <div class="lid-top face"></div>
+          <div class="lid-front face"></div>
+          <div class="lid-right face"></div>
+          <div class="lid-ribbon-h"></div>
+          <div class="lid-ribbon-v"></div>
+          <div class="bow">
+            <div class="bow-left"></div>
+            <div class="bow-right"></div>
+            <div class="bow-knot"></div>
+            <div class="bow-tail-l"></div>
+            <div class="bow-tail-r"></div>
+          </div>
+        </div>
+
+        <div class="box-body">
+          <div class="box-top face"></div>
+          <div class="box-front face"></div>
+          <div class="box-right face"></div>
+          <div class="box-ribbon-h"></div>
+          <div class="box-ribbon-v"></div>
+          <div class="box-ribbon-side"></div>
+        </div>
+      </div>
+
+      <div class="gift-tag">
+        <span>Sudhui<br>tomari<br>Jonne</span>
+        <div class="tag-heart">❤️</div>
+      </div>
+    </div>
+
+    <button class="open-btn" onclick="openGift()">
+      Open &nbsp;<span class="btn-heart">💖</span>
+    </button>
+
+    <p class="footer-text">Simplyyyy, just for you.<br>Puchkheee😁😁😁</p>
+
+  </div>
+
+  <div id="next-screen">
+
+    <!-- Back button -->
+    <button class="back-btn" onclick="history.back()">← Back</button>
+
+    <!-- Eyebrow -->
+    <p class="pass-eyebrow">One more step...</p>
+
+    <!-- Password dot indicators -->
+    <div class="pass-indicators" id="passIndicators">
+      <div class="indicator" id="ind-0"></div>
+      <div class="indicator" id="ind-1"></div>
+      <div class="indicator" id="ind-2"></div>
+      <div class="indicator" id="ind-3"></div>
+      <div class="indicator" id="ind-4"></div>
+      <div class="indicator" id="ind-5"></div>
+      <div class="indicator" id="ind-6"></div>
+      <div class="indicator" id="ind-7"></div>
+    </div>
+
+    <!-- Hint -->
+    <p class="pass-hint">Hint: The day we first met ✨</p>
+
+    <!-- Wrong / success messages -->
+    <p class="wrong-msg"   id="wrongMsg">Arey Puchke bhabnaa ektu re 🥺</p>
+    <p class="success-msg" id="successMsg">Unlocking your next surprise... ✨</p>
+
+    <!-- Floating glassmorphism keypad -->
+    <div class="keypad-float" id="keypadContainer">
+      <div class="keypad-grid">
+        <button class="key" data-val="1" onclick="pressKey(this)"><span class="key-num">1</span></button>
+        <button class="key" data-val="2" onclick="pressKey(this)"><span class="key-num">2</span></button>
+        <button class="key" data-val="3" onclick="pressKey(this)"><span class="key-num">3</span></button>
+
+        <button class="key" data-val="4" onclick="pressKey(this)"><span class="key-num">4</span></button>
+        <button class="key" data-val="5" onclick="pressKey(this)"><span class="key-num">5</span></button>
+        <button class="key" data-val="6" onclick="pressKey(this)"><span class="key-num">6</span></button>
+
+        <button class="key" data-val="7" onclick="pressKey(this)"><span class="key-num">7</span></button>
+        <button class="key" data-val="8" onclick="pressKey(this)"><span class="key-num">8</span></button>
+        <button class="key" data-val="9" onclick="pressKey(this)"><span class="key-num">9</span></button>
+
+        <button class="key key-action" onclick="clearPin()">      <span class="key-num">#</span></button>
+        <button class="key" data-val="0" onclick="pressKey(this)"><span class="key-num">0</span></button>
+        <button class="key key-action" onclick="backspacePin()">  <span class="key-num">✕</span></button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <p class="pass-footer">The answer might already be in your heart. ♡</p>
+
+    <!-- Particle canvas -->
+    <canvas id="particle-canvas"></canvas>
+
+  </div>
+
+  <!-- ===== INTERLUDE SCREEN — gentle pause before the poem ===== -->
+  <div id="interlude-screen">
+
+    <div class="message-wrap">
+      <p class="interlude-message" id="interludeMessage"></p>
+      <span class="type-cursor" id="interludeCursor">|</span>
+    </div>
+
+    <button class="continue-btn" id="interludeBtn" onclick="goToPoem()">
+      One more click... I promise it's worth it ♡
+    </button>
+
+  </div>
+
+  <script src="sound.js"></script>
+  <script src="bgmusic.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
