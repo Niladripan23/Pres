@@ -323,8 +323,8 @@ body {
   }
 
   .photo-frame {
-  width: clamp(160px, 58vw, 240px);
-  height: clamp(160px, 55vw, 240px);
+  width: 82%;
+  height: 90%;
 }
 
   .mem-continue-btn {
@@ -345,8 +345,8 @@ body {
   }
 
   .photo-frame {
-  width: 60vw;
-  height: 82vw;
+  width: 82%;
+  height: 90%;
 }
 }
 
