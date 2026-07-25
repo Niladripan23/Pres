@@ -1,4 +1,4 @@
-﻿// ============================================
+// ============================================
 //   SHARED JOURNEY NAVIGATION
 // ============================================
 const JourneyNav = {
@@ -84,12 +84,15 @@ const CHIT_MESSAGES = [
 
 
   "amader memories khub e choto but still different...\nsobai to trips r bypare etc... lekhe\namader memories sobi messages a praye....😊",
+  
 
   "Unacademy kom chilona bol😂😂😜😜\namader prochur memories diyeche\nrank dik na dik😂\nder lakher r memories... ete 10g sona toiri hoy jabe\nbut amader sonar kom chilo ki?",
 
+  "Samiran Sir dakto Kharagpurrr! Pora hoyche?\nPuchke on other Side:- Naa Sir\namio tor pichone dariyechilam...\nI be like tui dariyechis\nKi bypar...\n\namar ekhono mone ache kondike dariyechilis\nthird bench extreme left🥲\nIdk why I still Remember it🥲",
+
   "Tor mone ache? tui samne astis r ami boda hoy jetam😂😂\nsamne diye gele takatei partamna...\nOdike chat a batela marchi🤣😭",
 
-  "tui boltis chat a joto dabi\nbaire bijhe beral😂....\nha sottie bijhe beral chilam🤣\nSamne 10meter durei dariye achis\nBon chole geche chips ante tao kotha berochenaa🤣\nektai kothaa KIREEEEE😂",
+  "tui boltis chat a joto dabi\nbaire bijhe beral😂....\nha sottie bijhe beral chilam🤣\nSamne du pa durei dariye achis\nBon chole geche chips ante tao kotha berochenaa🤣\nektai kothaa KIREEEEE😂",
 
   "tor bon o janto er dara kichu hobena\nami jai chips ani🤣",
 
