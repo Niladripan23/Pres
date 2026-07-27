@@ -82,6 +82,7 @@ const CAPTIONS = [
   'Remember this?😜😁',
   'Tui ei chobita dilina🥺😤',
   'Warrior Puchke🤺🤺🤺',
+  'Old Memories❤️❤️'
 ];
 
 // Three stack slot definitions: back â†’ mid â†’ front
