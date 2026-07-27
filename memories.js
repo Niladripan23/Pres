@@ -84,7 +84,8 @@ const CAPTIONS = [
   'Tui ei chobita dilina🥺😤',
   'Warrior Puchke🤺🤺🤺',
   'Old Memories❤️❤️',
-  'I couldnt keep the moment. I kept the memory. ❤️',
+  'I couldnt keep the moment,I kept the memory.❤️',
+
 ];
 
 // Three stack slot definitions: back â†’ mid â†’ front
