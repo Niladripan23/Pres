@@ -84,7 +84,7 @@ const CAPTIONS = [
   'Tui ei chobita dilina🥺😤',
   'Warrior Puchke🤺🤺🤺',
   'Old Memories❤️❤️',
-  'I couldnt keep the moment but I kept the memory.😊❤️',
+  '😁😁😁🫣❤️❤️',
 
 ];
 
