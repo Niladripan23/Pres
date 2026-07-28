@@ -98,7 +98,7 @@ const CHIT_MESSAGES = [
 
   "Oh Aryan okhan kar ek systum chilo baba re bol?\nO ak bal chilo\ntor revenge ta baki roye gelo last din r...\nbut I think its ok... kichu jinis bhalor jonnoi hoy...",
   "baki memories bolte roilo\namader late night everyday chats....\nthat I miss everydayyyy, everyday goodnights & all etc...\njai hok seta naye porer bochor hobe🤣😜\nami late-night chats r kotha bolchi😁😁😜",
-  "Last meet:-11/01/2026\njotoi miss korina keno\njotoi mon kharap koruk\nbhogoban sonena",
+  "Last meet:-11/01/2026\nMiss You Veryyy Much🥺❤️❤️......",
   "ekta chotto last kobita tomar jonne...",
   
 "Tomar sathe ekta misti dupur\nAmar dike agiye ashe payer nupur...\nSurjo sobar age muhurto\nBhat er pate mach ar shukto\nTomari sathe katai somoy\nJibon sundor hoye othe tomari aloy....",
