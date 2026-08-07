@@ -252,7 +252,7 @@ const START_DELAY    = 800;
 // pause between lines (ms)
 const LINE_PAUSE     = 280;
 // typing speed — lower = faster (ms per character)
-const CHAR_SPEED     = 38;
+const CHAR_SPEED     = 70;
 // pause after a stanza gap line
 const GAP_PAUSE      = 420;
 
