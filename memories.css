@@ -150,7 +150,7 @@ body {
   transform: translateY(14px);
   pointer-events: none;
   transition: opacity 0.95s ease, transform 0.95s ease;
-  margin-left: 2rem;
+  margin-left: 1rem;
 }
 
 .mem-continue-wrap.visible {
